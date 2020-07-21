@@ -3,6 +3,39 @@ const app = express();
 const mongoose = require('mongoose');
 const booksRouter = require('./routes/books');
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Books API',
+      description: 'Books API Documentation',
+      contact: {
+        name: 'Raj Chunara',
+      },
+      servers: ['http://localhost:3000'],
+    },
+  },
+  apis: ['./routes/*js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+/**
+ *@swagger
+ * /user:
+ *  get:
+ *   description: use to get all user
+ *   responses:
+ *     '200':
+ *       description: A successfull response
+ */
+app.get('/user', (req, res) => {
+  res.status(200).send('user data');
+});
+
 //configure environment variables
 require('dotenv').config();
 

@@ -3,6 +3,7 @@ const Book = require('../models/books');
 const getBook = async (req, res, next) => {
   let book;
   try {
+    console.log(req.params.id);
     book = await Book.findById(req.params.id);
 
     //Check if book exist

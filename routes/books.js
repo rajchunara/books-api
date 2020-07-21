@@ -6,6 +6,15 @@ const Book = require('../models/books');
 const getBook = require('../middleware/bookMiddleware');
 
 //Get all books
+/**
+ *@swagger
+ * /api/v1/books:
+ *  get:
+ *   description: use to get all books
+ *   responses:
+ *     '200':
+ *       description: A successfull response
+ */
 router.get('/', async (req, res) => {
   try {
     const books = await Book.find();
@@ -17,8 +26,23 @@ router.get('/', async (req, res) => {
 });
 
 //Get one book
+/**
+ *@swagger
+ * /api/v1/books/{id}:
+ *  get:
+ *   description: use to get book by ID
+ *   parameters:
+ *   - name: id
+ *   - in:path
+ *    description:"ID of the book"
+ *    required:true
+ *    type:string
+ *   responses:
+ *     '200':
+ *       description: A successful response
+ */
 router.get('/:id', getBook, (req, res) => {
-  res.send(res.book);
+  res.status(200).send(res.book);
 });
 
 //Create book
@@ -40,7 +64,7 @@ router.post('/', async (req, res) => {
 });
 
 //Update book
-router.patch('/:id', getBook, async (req, res) => {
+router.patch('/{id}', getBook, async (req, res) => {
   //Check if user has passed any of these properties
   //If passed then change it and save it to database
   if (req.body.name != null) {
